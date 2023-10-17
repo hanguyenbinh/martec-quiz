@@ -10,6 +10,9 @@ start a project normally:
 start a project with docker fully
 - docker-compose up --build -d
 
+check the system run successful by acceess this url:
+http://localhost:3000/swagger
+
 NOTE:
 - configuration files: config.yaml, docker-compose.yaml
 - in docker environment, the env vars in docker-compose.yaml will be used first
