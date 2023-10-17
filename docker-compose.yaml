@@ -1,0 +1,65 @@
+version: "3"
+
+services:
+    backend:
+        build:
+            context: .
+        ports:
+            - 3000:3000
+        restart: always
+        environment:
+            - NODE_ENV=production
+            - REDIS_HOST=redis_svc
+            - REDIS_PORT=6379
+            - REDIS_PASSWORD=123456
+            - MYSQL_HOST=database_svc
+            - MYSQL_PORT=3306
+            - MYSQL_PASSWORD=password
+            - MYSQL_USERNAME=user
+            - MYSQL_DATABASE=testing-database
+        links:
+            - database_svc
+            - redis_svc
+        depends_on:
+            - database_svc
+            - redis_svc
+        networks:
+            - test-system-network
+    database_svc:
+        container_name: mysql8
+        image: mysql:8.0
+        command: mysqld --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: testing-database
+            MYSQL_USER: user
+            MYSQL_PASSWORD: password
+            MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+        ports:
+        - 33060:3306
+        volumes:
+        - './db/data:/var/lib/mysql'
+        - './db/my.cnf:/etc/mysql/conf.d/my.cnf'
+        - './db/sql:/docker-entrypoint-initdb.d'
+        restart: always
+        networks:
+            - test-system-network
+    redis_svc:
+        image: docker.io/bitnami/redis:6.2
+        restart: always
+        environment:
+            # ALLOW_EMPTY_PASSWORD is recommended only for development.
+            #- ALLOW_EMPTY_PASSWORD=yes
+            - REDIS_PASSWORD=123456
+            - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+        ports:
+            - 63790:6379
+        volumes:
+            - 'redis_data:/bitnami/redis/data'
+        networks:
+            - test-system-network
+volumes:
+    redis_data:
+        driver: local
+networks:
+    test-system-network:
