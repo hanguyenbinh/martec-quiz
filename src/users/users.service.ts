@@ -58,35 +58,7 @@ export class UsersService {
         });
     }
 
-    async createUser(id1: string, id2: string) {
-        const now = new Date();
-        let user = await this.usersRepository.findOne(
-            {
-                where: {
-                    id1,
-                    id2
-                }
-            }
-        )
-        if (user) {
-            return new HttpResult({
-                message: 'USER_IS_EXSISTED',
-                data: user
-            });
-        }
-        user = this.usersRepository.create();
-        user.id1 = id1;
-        user.id2 = id2;
-        user.createdAt = now;
-
-
-
-        const result = await this.usersRepository.save(user);
-        return new HttpResult({
-            message: 'USER_IS_CREATED_SUCCESS',
-            data: result
-        });
-    }
+    
 
     async deleteUser(id: string) {
         const user = await this.usersRepository.findOne(

@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { ShareImageDto } from './dtos/share-image.dto';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Hello World!';
+  shareImage(input: ShareImageDto) {
+
   }
 }
