@@ -16,7 +16,7 @@ database:
   password: martectuser1234
   database: martect_database
   synchronize: false
-  migrationsRun: false
+  migrationsRun: true
   logging: true
   entities: ["./dist/src/**/**.entity{.ts,.js}"]
   migrations: ["./dist/migrations/*.js"]
@@ -101,14 +101,4 @@ redis:
   password: '123456'
   ttl: 3000
 facebook:
-  appId: '1472226810227888'
-  appSerect: b6d494dde5a3f24f6129e615c35fed32
-instagram:
-  appId: '920088529459235'
-  appSerect: 898465a09b7d13427813d51d7be78082
-  callbackUrl: localhost:3000/auth/callback
-  accesToken: IGQWRPWnVmOUw1aGZAoR3dYV0I4ZA3B2NS1zdjFaYlRBaWlDN2VpTmhUdGNKdTBKZAXB1ejRRV2NnM29jRlo2V3ZAzWHdGX25oNFlWNXc1bHhicUxYYVBlQVNpWmxFRGl4czdBT050UDBESS1TVl90WXo5MjBaVHViUlkZD
-  scope: user_profile,user_media,instagram_basic,pages_show_list
-twitter:
-  clientId: VVk4bWN2TWVxTmpQQW9NY1JhbkI6MTpjaQ
-  clientSerect: AeRQGe1yt2Utie-aRiIGsMXxZ__A0lEO7yff0ibvCCy8uARV3K
+  igUserId: '17841444429991526'

@@ -1,7 +1,6 @@
 import { Module, Global } from '@nestjs/common';
 import { FaceBookGraphApiService } from './face-book-graph-api.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Users } from 'src/entities/users.entity';
 import { HttpModule } from '@nestjs/axios';
 import { Agent } from 'https';
 import { Media } from 'src/entities/media.entity';
@@ -10,7 +9,6 @@ import { Media } from 'src/entities/media.entity';
 @Module({
   imports: [
     TypeOrmModule.forFeature([
-      Users,
       Media
     ]),
     HttpModule.register({

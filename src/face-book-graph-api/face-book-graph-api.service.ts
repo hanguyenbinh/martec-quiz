@@ -1,49 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ShareImageDto } from 'src/dtos/share-image.dto';
-import { Users } from 'src/entities/users.entity';
 import { Repository } from 'typeorm';
 import { HttpService } from '@nestjs/axios';
 import { Media } from 'src/entities/media.entity';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class FaceBookGraphApiService {
-    private igUserId = '17841444429991526';
-    private shareMedia = '17841444429991526/media';
-    private publishMedia = '17841444429991526/media_publish';
-    private accountInfo = '/{fbUserId}/accounts'
+    private igUserId = '';
+    private shareMedia = 'media';
+    private publishMedia = 'media_publish';
     constructor(
         private httpService: HttpService,
-        @InjectRepository(Users)
-        private readonly usersRepository: Repository<Users>,
+        private configService: ConfigService,        
         @InjectRepository(Media)
         private readonly mediaRepository: Repository<Media>,
     ) {
-
-    }
-
-    async getIGAccount(fbUserId: string, accessToken: string) {
-        try {
-            const url = '140498459427968';
-            console.log(url, accessToken)
-            const result = await this.httpService.get(url, {
-                params: {
-                    access_token: accessToken,
-                    fields: 'instagram_business_account'
-                }
-            }).toPromise();
-            return result.data?.data;
-        }
-        catch (error) {
-            console.log({ ...error })
-        }
-        return [];
-
-    }
+        this.igUserId = this.configService.get('facebook.igUserId');
+    }    
 
     async shareImage(input: ShareImageDto, user: any) {
         try {
-            const result = await this.httpService.post(this.shareMedia, {
+            const result = await this.httpService.post(`${this.igUserId}/${this.shareMedia}`, {
 
                 image_url: input.imageUrl,
                 access_token: user.accessToken
@@ -51,7 +30,7 @@ export class FaceBookGraphApiService {
             console.log(result.data)
             const creationId = result.data.id;
             
-            const publishResult = await this.httpService.post(this.publishMedia.replace('{creationId}', creationId), {
+            const publishResult = await this.httpService.post(`${this.igUserId}/${this.publishMedia}`, {
                 creation_id: creationId,
                 access_token: user.accessToken
             }).toPromise();

@@ -4,11 +4,12 @@ services:
     backend:
         build:
             context: .
+        tty: true
         ports:
             - 3000:3000
         restart: always
         environment:
-            - NODE_ENV=development
+            - NODE_ENV=staging
             - REDIS_HOST=redis
             - REDIS_PORT=6379
             - REDIS_PASSWORD=123456

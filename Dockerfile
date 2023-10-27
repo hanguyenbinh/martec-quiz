@@ -24,8 +24,9 @@ RUN chmod -R 777 /home/node/app/logs
 COPY --from=builder /home/node/app/*.json /home/node/app/
 COPY --from=builder /home/node/app/*.ts /home/node/app/
 # COPY --from=builder /home/node/app/ormconfig.ts /home/node/app/
-COPY --from=builder /home/node/app/dist /home/node/app/
-COPY --from=builder /home/node/app/config.production.yaml /home/node/app/
+COPY --from=builder /home/node/app/dist /home/node/app
+COPY --from=builder /home/node/app/config.staging.yaml /home/node/app/
+COPY --from=builder /home/node/app/letsencrypt /home/node/app/letsencrypt
 
 RUN npm ci
 USER node
